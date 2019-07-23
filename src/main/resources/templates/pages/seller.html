@@ -2,156 +2,252 @@
 <html>
 
 <head>
-    <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>商家完善资料</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-  
-    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-   
-    
+<!-- 页面meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>商家完善资料</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+   		$(function(){
+   			doGetObjects();
+	   		$(".btn-toolbar")
+	  	  .on("click",".btn-primary",doSaveOrUpdate)
+	  	  .on("click",".btn-danger",docommit);
+	   			
+   		})
+   		function doGetObjects(){
+   			var url="findAllSellers";
+   			var params=null;
+   			$.getJSON(url,params,function(result){
+   				console.log(result);
+   				doHandleResult(result);
+   				
+   			});
+   		}
+  		function	doHandleResult(result){
+		if(result.state==1){
+			debugger
+			//载入数据
+			doSetTableBodyRows(result)
+		}else{
+			alert(没数据传入);
+		}
+		}
+	   	function doSetTableBodyRows(result){
+	   		$("#name").val(result.data[1].name);
+	   		$("#mobile").val(result.data[1].mobile);
+	   		$("#telephone").val(result.data[1].telephone);
+	   		$("#addressDetail").val(result.data[1].addressDetail);
+	   		$("#linkmanName").val(result.data[1].linkmanName);
+	   		$("#linkmanQq").val(result.data[1].linkmanQq);
+	   		$("#linkmanMobile").val(result.data[1].linkmanMobile);
+	   		$("#linkmanEmail").val(result.data[1].linkmanEmail);
+	   		$("#licenseNumber").val(result.data[1].licenseNumber);
+	   		$("#taxNumber").val(result.data[1].taxNumber);
+	   		$("#orgNumber").val(result.data[1].orgNumber);
+	   		$("#legalPerson").val(result.data[1].legalPerson);
+	   		$("#legalPersonCardId").val(result.data[1].legalPersonCardId);
+	   		$("#bankName").val(result.data[1].bankName);
+	   		$("#bankUser").val(result.data[1].bankUser);
+	   	}
+	   	function doSaveOrUpdate(){
+	   		//1.获取表单数据
+	   		debugger
+			var params = doGetEditFormData();
+	   		
+	   		debugger
+			//var rowData = $("#mainContentId").data("rowData");
+			//if (rowData)params.id = rowData.id;
+			//2.定义url
+			var url = "UpdateSellerObject";
+			//3.异步提交数据
+			$.post(url, params, function(result) {
+					alert(result.message);
+			});
+	   		
+	   	}
+	   	function doGetEditFormData() {
+	   		var a="alibaba"
+	   			debugger
+			var param = {
+				
+				sellerId : "huawei" ,
+				name : $("#name").val(),
+				mobile : $("#mobile").val(),
+				telephone : $("#telephone").val(),
+				addressDetail : $("#addressDetail").val(),
+				linkmanName : $("#linkmanName").val(),
+				linkmanQq : $("#linkmanQq").val(),
+				linkmanMobile : $("#linkmanMobile").val(),
+				linkmanEmail : $("#linkmanEmail").val(),
+				licenseNumber : $("#licenseNumber").val(),
+				taxNumber : $("#taxNumber").val(),
+				orgNumber : $("#orgNumber").val(),
+				legalPerson : $("#legalPerson").val(),
+				legalPersonCardId : $("#legalPersonCardId").val(),
+				bankName : $("#bankName").val(),
+				bankUser : $("#bankUser").val()
+			}
+			return param;
+		}
+	   	function docommit(){
+	   		alert("确认吗");
+	   	}
+	   	</script>
+
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" >
+<body class="hold-transition skin-red sidebar-mini">
 
 
 
-            <!-- 正文区域 -->
-            <section class="content">
+	<!-- 正文区域 -->
+	<section class="content">
 
-                <div class="box-body">
+		<div class="box-body">
 
-                    <!--tab页-->
-                    <div class="nav-tabs-custom">
+			<!--tab页-->
+			<div class="nav-tabs-custom">
 
-                        <!--tab头-->
-                        <ul class="nav nav-tabs">
-                       		
-                            <li class="active">
-                                <a href="#home" data-toggle="tab">商家信息</a>                             
-                            </li>                            
-                        </ul>
-                        <!--tab头/-->
-						
-                        <!--tab内容-->
-                        <div class="tab-content">
+				<!--tab头-->
+				<ul class="nav nav-tabs">
 
-                            <!--表单内容-->
-                            <div class="tab-pane active" id="home">
-                                <div class="row data-type">                                  
+					<li class="active"><a href="#home" data-toggle="tab">商家信息</a>
+					</li>
+				</ul>
+				<!--tab头/-->
 
-                                    <div class="col-md-2 title">公司名称</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="公司名称" value="">
-                                    </div>
-									
-									<div class="col-md-2 title">公司手机</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"  placeholder="公司手机" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">公司电话</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"    placeholder="公司电话" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">公司详细地址</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"    placeholder="公司详细地址" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">联系人姓名</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="联系人姓名" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">联系人QQ</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="联系人QQ" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">联系人手机</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"    placeholder="联系人手机" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">联系人EMAIL</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="联系人EMAIL" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">营业执照号</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="营业执照号" value="">
-                                    </div>
-                                     
-                                    <div class="col-md-2 title">税务登记证号</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="税务登记证号" value="">
-                                    </div>
-                                    
- 									<div class="col-md-2 title">组织机构代码证</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"  placeholder="组织机构代码证" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">法定代表人</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="法定代表人" value="">
-                                    </div>
-                                    
- 									<div class="col-md-2 title">法定代表人身份证号</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="法定代表人身份证号" value="">
-                                    </div>
+				<!--tab内容-->
+				<div class="tab-content">
 
- 									<div class="col-md-2 title">开户行名称</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control" placeholder="开户行名称" value="">
-                                    </div>
-                                    
-                                    <div class="col-md-2 title">开户行支行</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="开户行支行" value="">
-                                    </div>
+					<!--表单内容-->
+					<div class="tab-pane active" id="home">
+						<div class="row data-type">
 
-                                    <div class="col-md-2 title">银行账号</div>
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control"   placeholder="银行账号" value="">
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            
-                            
-                           
-                            
-                        </div>
-                        <!--tab内容/-->
-						<!--表单内容/-->
-							 
-                    </div>
-                 	
-                 	
-                 	
-                 	
-                   </div>
-                  <div class="btn-toolbar list-toolbar">
-				      <button class="btn btn-primary" ><i class="fa fa-save"></i>保存</button>
-				      <a  data-toggle="modal" class="btn btn-danger">提交</a>
-				  </div>
+							<div class="col-md-2 title">公司名称</div>
+							
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="公司名称" value=""  id="name" >
+							</div>
+
+							<div class="col-md-2 title">公司手机</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="公司手机" 	value=""  id="mobile" >
+							</div>
+
+							<div class="col-md-2 title">公司电话</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="公司电话" value="" id="telephone" >
+							</div>
+
+							<div class="col-md-2 title">公司详细地址</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="公司详细地址" value="" id="addressDetail" >
+							</div>
+
+							<div class="col-md-2 title">联系人姓名</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="联系人姓名"  value="" id="linkmanName" >
+							</div>
+
+							<div class="col-md-2 title">联系人QQ</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="联系人QQ"  value="" id="linkmanQq" >
+							</div>
+
+							<div class="col-md-2 title">联系人手机</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="联系人手机"  value="" id="linkmanMobile" >
+							</div>
+
+							<div class="col-md-2 title">联系人EMAIL</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="联系人EMAIL" value="" id="linkmanEmail" >
+							</div>
+
+							<div class="col-md-2 title">营业执照号</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="营业执照号"  value="" id="licenseNumber">
+							</div>
+
+							<div class="col-md-2 title">税务登记证号</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="税务登记证号" value="" id="taxNumber">
+							</div>
+
+							<div class="col-md-2 title">组织机构代码证</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="组织机构代码证"  value="" id="orgNumber">
+							</div>
+
+							<div class="col-md-2 title">法定代表人</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="法定代表人"  value="" id ="legalPerson">
+							</div>
+
+							<div class="col-md-2 title">法定代表人身份证号</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="法定代表人身份证号"  value="" id="legalPersonCardId">
+							</div>
+
+							<div class="col-md-2 title">开户行名称</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="开户行名称"  value="" id="bankName">
+							</div>
+
+							<div class="col-md-2 title">开户行支行</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="开户行支行"  value="">
+							</div>
+
+							<div class="col-md-2 title">银行账号</div>
+							<div class="col-md-10 data">
+								<input type="text" class="form-control" placeholder="银行账号" value="" id="bankUser">
+							</div>
+
+						</div>
+					</div>
+
+
+
+
+				</div>
+				<!--tab内容/-->
+				<!--表单内容/-->
+
+			</div>
+
+
+
+
+		</div>
+<!-- 		<div class="btn-toolbar list-toolbar"> -->
+		<div class="btn-toolbar">
+			<button class="btn btn-primary">
+<!-- 				<i class="fa fa-save"></i>保存 -->
+				<i class="fa-save"></i>保存
+			</button>
 			
-            </section>
-            <!-- 正文区域 /-->
+
 			
-       
+			<a data-toggle="modal" class="btn btn-danger">提交</a>
+		</div>
+
+	</section>
+	<!-- 正文区域 /-->
+
+
 </body>
 
 </html>

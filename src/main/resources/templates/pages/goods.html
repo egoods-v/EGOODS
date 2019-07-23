@@ -14,7 +14,69 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
- 
+ 	    
+    <script type="text/javascript">
+		$(function(){
+			//加载数据
+			doGetObjects();
+		})
+  		function doGetObjects(){ 
+			
+  			//URL方法名 -->
+ 			var url ="goodsMapper"; 
+ 			//request params -->
+  			 var params =null;
+  			//send async request得到JSON串 -->
+			$.getJSON(url,params,function(result){//callback
+				 //console.log(result);
+				 //console.log(result.data.records);
+				 //对数据进行处理
+		 		doHandleResponseResult(result);
+				 debugger
+			 });//jquery
+  		}
+		
+		function doHandleResponseResult(result){
+			if(result.state==1){
+				//载入数据
+				doSetTableBodyRows(result.data)
+			}else
+				alert(没数据传入);
+		}
+		
+		function doSetTableBodyRows(records){
+			 debugger
+			 //1.获取tbody对象,并清空tbody中数据
+			 var tBody=$('#dataList').find('tbody');
+			 tBody.empty();
+			 //2.迭代records,并将记录追加tbody中
+			 for(var i=0;i<7;i++){
+			  //2.1 创建一个tr对象
+			  var tr=$("<tr></tr>");
+			  //2.2 创建多个td对象(一行多列)
+			  var tds=doCreateTds(records[i]);
+			  //2.3 将td追加到tr中
+			  tr.append(tds);
+			  //2.4 将tr追加tbody中
+			  tBody.append(tr);
+			 }
+		}
+		
+		 function doCreateTds(data){
+			 debugger
+			   var tds="<td><input type='checkbox' class='cBox' name='cItem' value='"+data.id+"'></td>"+
+			   		 "<td>"+data.id+"</td>"+
+				   	 "<td>"+data.goodsName+"</td>"+
+				     "<td>"+data.price+"</td>"+
+				     "<td>"+data.category1Id+"</td>"+
+				     "<td>"+data.category2Id+"</td>"+
+				     "<td>"+data.category3Id+"</td>"+
+				     "<td>"+data.caption+"</td>"+
+				     "<td><button type='button' class='btn bg-olive btn-xs'>修改</button></td>";
+		      return tds;
+		 }
+ 	</script>	
+ 	
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" >
@@ -74,32 +136,32 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>1</td>
-									      <td>小米6S手机</td>
-									      <td>1090</td>
-									      <td>数码</td>
-									      <td>手机</td>
-									      <td>国产手机</td>
-		                                  <td>
-		                                  	<span>
-		                                  		未申请
-		                                  	</span>
-		                                  	<span >
-		                                  		申请中
-		                                  	</span>
-		                                  	<span>
-		                                  		审核通过
-		                                  	</span>
-		                                  	<span>
-		                                  		已驳回
-		                                  	</span>
-		                                  </td>		                                  
-		                                  <td class="text-center">                                          
-		                                 	  <button type="button" class="btn bg-olive btn-xs">修改</button>                  
-		                                  </td>
-			                          </tr>
+<!-- 			                          <tr> -->
+<!-- 			                              <td><input  type="checkbox"></td>			                               -->
+<!-- 				                          <td>1</td> -->
+<!-- 									      <td>小米6S手机</td> -->
+<!-- 									      <td>1090</td> -->
+<!-- 									      <td>数码</td> -->
+<!-- 									      <td>手机</td> -->
+<!-- 									      <td>国产手机</td> -->
+<!-- 		                                  <td> -->
+<!-- 		                                  	<span> -->
+<!-- 		                                  		未申请 -->
+<!-- 		                                  	</span> -->
+<!-- 		                                  	<span > -->
+<!-- 		                                  		申请中 -->
+<!-- 		                                  	</span> -->
+<!-- 		                                  	<span> -->
+<!-- 		                                  		审核通过 -->
+<!-- 		                                  	</span> -->
+<!-- 		                                  	<span> -->
+<!-- 		                                  		已驳回 -->
+<!-- 		                                  	</span> -->
+<!-- 		                                  </td>		                                   -->
+<!-- 		                                  <td class="text-center">                                           -->
+<!-- 		                                 	  <button type="button" class="btn bg-olive btn-xs">修改</button>                   -->
+<!-- 		                                  </td> -->
+<!-- 			                          </tr> -->
 			                      </tbody>
 			                  </table>
 			                  <!--数据列表/-->                        
